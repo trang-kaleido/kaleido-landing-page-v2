@@ -658,7 +658,7 @@
       <div class="idea-statement">"Individual action alone cannot solve shared problems"</div>
     </div>
 
-    <div class="idea-bridge">↓ &nbsp; 5 questions</div>
+    <div class="idea-bridge">↓ &nbsp; 13 questions</div>
 
     <!-- Swipeable bottom half -->
     <div class="idea-lower">
@@ -745,24 +745,56 @@
     ══════════════════════════════════════════════════ */
     const CARDS = [
       {
-        q: 'Some people believe that protecting the environment should be the responsibility of politicians, since individuals are too limited to make a significant difference. To what extent do you agree or disagree?',
-        a: 'When a problem exceeds any single actor\'s capacity, voluntary participation consistently underdelivers — the commons degrades while everyone waits for others to move first. Politicians hold the only tools that work at scale: law, enforcement, collective incentive. The argument against government responsibility is an argument for waiting indefinitely.'
+        q: 'Many movies and video games contain scenes of violence. Some people believe that they should be banned, while others think they are harmless or even help people to relax. Discuss both views and give your opinion.',
+        a: 'Some believe that individual discretion is insufficient to address the public concerns about violent media, justifying a ban. When a problem affects everyone and requires collective participation, relying solely on voluntary individual action often fails to deliver effective solutions. For instance, if violent media is not regulated, it may lead to increased aggression in society, affecting everyone. Moreover, without regulation, these media forms can perpetuate negative stereotypes, impacting societal harmony.'
       },
       {
-        q: 'Research shows that the transportation of goods and people is now one of the biggest sources of pollution worldwide. Some people believe that managing this pollution is the responsibility of governments, while others believe it is up to individuals. Discuss both views and give your opinion.',
-        a: 'Individual choices aggregate slowly and unevenly. Governments design the infrastructure that shapes those choices — roads, transit networks, emissions standards. The lever that moves behavior at scale is the system, not the choices made within it. Waiting for voluntary behavior to shift is waiting for the problem to solve itself.'
+        q: 'Supermarkets should reduce packaging, while others believe consumers must avoid over-packaged goods. Discuss both views and give your opinion.',
+        a: 'Supermarkets, as part of a collective system, have a significant role in reducing packaging waste. When a problem affects everyone and requires everyone\'s participation, voluntary individual action consistently underdelivers. Packaging waste is a shared issue that demands coordinated efforts from supermarkets to implement changes that individuals cannot achieve alone. For example, supermarkets can invest in sustainable packaging technologies, which can significantly reduce waste. Therefore, supermarkets must lead the way in packaging reduction.'
       },
       {
-        q: 'Governments should limit the amount of waste produced by households. Do you agree or disagree?',
-        a: 'Household waste is a downstream symptom. Setting limits there leaves the upstream causes — packaging design, manufacturer incentives, retail practice — untouched. Effective policy reaches further back in the chain. Limiting only household output is precision without leverage.'
+        q: 'Should governments have access to citizens\' online data for national security? To what extent do you agree or disagree?',
+        a: 'Individual efforts alone cannot adequately address security threats. When a problem affects everyone, voluntary individual action often underdelivers, necessitating collective measures. For instance, combating terrorism requires coordinated intelligence efforts that individuals cannot achieve alone. Similarly, preventing cyber-attacks demands government intervention to protect national infrastructure. Therefore, government access to online data is necessary to ensure public safety.'
+      },
+      {
+        q: 'Some people think that when recruiting, companies should aim to take on people who are innovative and able to work independently, while others consider they should recruit people who are able to work in a team and follow instructions. Discuss both views and give your opinion.',
+        a: 'Conversely, individual action alone often fails to address shared challenges effectively. When a task requires collective effort, relying solely on individual contributions can lead to inefficiencies and incomplete outcomes. For instance, large-scale projects such as urban development require coordinated teamwork to succeed. Therefore, without collaboration, these projects may not reach their full potential.'
+      },
+      {
+        q: 'Employers should provide equal parental leave for both men and women. Do you agree or disagree?',
+        a: 'Individual action alone cannot effectively address shared problems like gender disparity. When a problem affects everyone, such as gender inequality, voluntary individual action is often insufficient because it requires collective participation to achieve meaningful change. For example, without employer-mandated equal parental leave, many men might not take leave due to workplace culture, perpetuating gender norms. Additionally, societal expectations often pressure women to assume primary caregiving roles, which can only be changed through structured policies. Thus, equal parental leave is necessary to address gender disparities that individual efforts alone cannot resolve.'
       },
       {
         q: 'Governments should regulate the internet to protect people from harmful content. To what extent do you agree or disagree?',
-        a: 'Platforms that operate at the scale of public infrastructure carry public consequences. The question is not whether to regulate but how: content rules that protect without silencing legitimate speech require precision most current proposals lack. Regulation is inevitable; the design of it is the debate.'
+        a: 'Individual action alone cannot solve shared problems like harmful online content. When a problem affects everyone and requires collective participation, voluntary individual action consistently underdelivers. For example, online platforms are forced to rely on user reports to identify harmful content, which is often insufficient. Additionally, if governments step in to regulate, it can ensure a more consistent and comprehensive approach to online safety. Therefore, without government intervention, the protection against harmful content remains inadequate.'
       },
       {
-        q: 'Some believe that young people under 18 who commit a crime should receive education rather than punishment. To what extent do you agree or disagree?',
-        a: 'Punishment assumes a self that has already formed. Young people are still forming theirs. Education at the point of first offense is the highest-leverage intervention available — a criminal record at 16 is a structural disadvantage that follows a person for decades. Education costs less and delivers more.'
+        q: 'Advertisements targeting children should be banned because they influence behaviour. To what extent do you agree or disagree?',
+        a: 'Individual action alone cannot effectively address the pervasive influence of advertisements on children. When a problem affects everyone and requires collective participation, voluntary individual action consistently underdelivers. For instance, parents may attempt to limit screen time, but without a broader societal effort, these measures are often undermined. Additionally, advertisements are designed to be persuasive and can easily bypass individual parental controls. Therefore, without a collective ban, individual efforts are insufficient to protect children from advertising\'s influence.'
+      },
+      {
+        q: 'To reduce traffic congestion, governments should heavily tax private cars and use the money to provide cheap public transport. To what extent do you agree or disagree?',
+        a: 'Traffic congestion is a collective problem that requires decisive government intervention. When everyone is affected by a problem that demands collective participation, voluntary individual actions often fall short. For example, traffic congestion is caused by the excessive use of private cars, which requires a coordinated effort to address. Moreover, without government-imposed taxes, individuals are unlikely to reduce their car usage significantly. Therefore, government intervention through taxation is essential to ensure widespread participation in reducing traffic congestion.'
+      },
+      {
+        q: 'Some people believe the purpose of education should be helping the individual to become useful for society, while others believe it should help individuals to achieve their ambitions. Discuss both views and give your opinion.',
+        a: 'Education should emphasize collective responsibility because individual efforts alone cannot solve shared problems. When a problem affects everyone and requires everyone\'s participation, voluntary individual action consistently underdelivers. For instance, environmental sustainability is a challenge that necessitates collective action, as individual efforts alone are insufficient. Similarly, public health issues such as vaccination require widespread participation to be effective. Therefore, education plays a crucial role in fostering a sense of community and shared responsibility.'
+      },
+      {
+        q: 'Financial education should be a compulsory part of the school curriculum. To what extent do you agree or disagree?',
+        a: 'Individual action alone cannot solve shared problems like financial literacy. When a problem affects everyone and requires everyone\'s participation, voluntary individual action consistently underdelivers. For example, many students graduate without understanding basic budgeting, which leads to poor financial decisions. Additionally, without a structured curriculum, disparities in financial knowledge can widen, disadvantaging those from less affluent backgrounds. This shows that without compulsory financial education, students are unlikely to gain the skills they need for future success.'
+      },
+      {
+        q: 'Research shows that the transportation of goods and people is now one of the biggest sources of pollution worldwide. Some people believe that managing this pollution is the responsibility of governments, while others believe it is up to individuals. Discuss both views and give your opinion.',
+        a: 'Governments are often seen as the primary agents for controlling pollution because individual actions alone are insufficient to address widespread issues. When pollution affects everyone and requires collective action, voluntary individual efforts tend to fall short, as some solutions necessitate universal participation. For instance, regulations on vehicle emissions can only be effective if enforced nationwide, as isolated compliance would not significantly reduce pollution levels. Similarly, public transportation systems, which reduce the number of private vehicles, require government investment and coordination to be successful. Therefore, government intervention is crucial for implementing solutions that are effective on a large scale.'
+      },
+      {
+        q: 'Corruption in politics undermines public trust. What are the causes, and how can it be tackled?',
+        a: 'To effectively tackle political corruption, collective structural interventions are necessary. When a problem affects everyone and requires collective action, relying solely on voluntary individual efforts is insufficient. For instance, anti-corruption policies need to be enforced by governments to ensure compliance across all sectors. Moreover, international cooperation can help establish transparency standards that prevent corrupt practices. Thus, addressing political corruption requires a coordinated effort that transcends individual actions.'
+      },
+      {
+        q: 'Some people say that all popular TV entertainment programmes should aim to educate viewers about important social issues. To what extent do you agree or disagree?',
+        a: 'Individual efforts alone are often insufficient to address widespread social issues. When a problem affects everyone and requires collective action, relying solely on voluntary individual efforts tends to fall short. For example, environmental issues like climate change require coordinated efforts from all sectors of society, not just individual lifestyle changes. Similarly, public health crises such as pandemics demand a unified response rather than isolated actions. This shows that tackling social issues effectively often requires a collective approach.'
       }
     ];
 
