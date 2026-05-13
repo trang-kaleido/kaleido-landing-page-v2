@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaleido — Symbol System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kaleido_tokens.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    padding: 60px 52px;
+    min-height: 100vh;
+  }
+
+  /* ─── PAGE STRUCTURE ─── */
+  .page-header {
+    margin-bottom: 80px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    color: var(--paper);
+    text-transform: lowercase;
+  }
+  .page-subtitle {
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.12em;
+    margin-top: 6px;
+  }
+
+  .section { margin-bottom: 96px; }
+  .section-label {
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    margin-bottom: 40px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink-mid);
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--ink-mid);
+    margin: 80px 0;
+  }
+
+  /* ─── ICON GRID ─── */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .icon-card {
+    background: var(--ink-mid);
+    padding: 32px 20px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .icon-card--center {
+    background: var(--ink);
+    border: 1px solid var(--ink-mid);
+  }
+  .icon-card-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+  }
+  .icon-index {
+    font-size: 9px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+  }
+  .icon-name {
+    font-size: 10px;
+    color: var(--paper);
+    letter-spacing: 0.08em;
+  }
+
+  /* ─── SIZE SCALE ─── */
+  .size-row {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    padding: 32px 0;
+  }
+  .size-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .size-label {
+    font-size: 9px;
+    color: var(--ink-soft);
+    letter-spacing: 0.12em;
+  }
+
+  /* ─── GROUND COMPARISON ─── */
+  .grounds-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .ground-panel {
+    padding: 40px 36px;
+  }
+  .ground-panel--dark  { background: var(--ink); }
+  .ground-panel--light { background: var(--paper); }
+  .ground-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    margin-bottom: 28px;
+  }
+  .ground-panel--dark  .ground-label { color: var(--ink-soft); }
+  .ground-panel--light .ground-label { color: var(--ink-ghost); }
+  .ground-icons {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  /* ─── HEXAGON SECTION ─── */
+  .hex-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 48px;
+    padding: 32px 0;
+  }
+  .hex-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .hex-framework-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 48px 0;
+  }
+
+  /* ─── TOKEN TABLE ─── */
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .token-table td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--ink-mid);
+    font-size: 10px;
+    vertical-align: top;
+  }
+  .token-table td:first-child {
+    color: var(--signal-light);
+    font-family: var(--font-mono);
+    width: 40%;
+    padding-right: 24px;
+  }
+  .token-table td:last-child {
+    color: var(--ink-ghost);
+    font-family: var(--font-mono);
+  }
+  .token-group-label {
+    font-size: 9px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+    padding-top: 24px;
+    padding-bottom: 4px;
+    border-bottom: none;
+  }
+
+  /* ─── USAGE RULE ─── */
+  .rule-block {
+    background: var(--ink-mid);
+    padding: 24px 28px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rule-block p {
+    font-size: 10px;
+    color: var(--ink-ghost);
+    line-height: 1.7;
+    letter-spacing: 0.04em;
+  }
+  .rule-block p span { color: var(--signal-light); }
+</style>
+</head>
+
+<body>
+
+<!-- ================================================================
+     SVG SYMBOL DEFINITIONS — SINGLE SOURCE OF TRUTH
+     All icons use currentColor. Set `color` on the wrapper <svg>.
+     On dark (ink) ground:  color: var(--icon-stroke)
+     On light (paper) ground: color: var(--icon-stroke-light)
+
+     Force mapping:
+       01 Material    — diamond
+       02 Progress    — double arrows
+       03 Collective  — overlapping circles
+       04 Preservation — 4-quadrant square
+       05 Sustainable — hourglass
+       06 Individual  — circle-dot over triangle
+       00 Nucleus     — filled hexagon (center node)
+     ================================================================ -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+
+    <!-- ── ICON: MATERIAL (01) ──
+         Rotated square + center dot
+         Force: the material conditions of a claim -->
+    <symbol id="icon-material" viewBox="0 0 100 100">
+      <polygon
+        points="50,12 88,50 50,88 12,50"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linejoin="round"/>
+      <circle cx="50" cy="50" r="5" fill="currentColor" stroke="none"/>
+    </symbol>
+
+    <!-- ── ICON: PROGRESS (02) ──
+         Two open rightward chevrons (>>)
+         Force: the direction and movement of an argument -->
+    <symbol id="icon-progress" viewBox="0 0 100 100">
+      <polyline
+        points="18,24 50,50 18,76"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+      <polyline
+        points="46,24 78,50 46,76"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- ── ICON: COLLECTIVE (03) ──
+         Two overlapping circles
+         Force: shared, systemic, or collective dimension -->
+    <symbol id="icon-collective" viewBox="0 0 100 100">
+      <circle cx="36" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="64" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="3"/>
+    </symbol>
+
+    <!-- ── ICON: PRESERVATION (04) ──
+         4-quadrant square + center dot
+         Force: what is maintained, conserved, or held -->
+    <symbol id="icon-preservation" viewBox="0 0 100 100">
+      <rect
+        x="16" y="16" width="68" height="68"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"/>
+      <line x1="50" y1="16" x2="50" y2="84" stroke="currentColor" stroke-width="2"/>
+      <line x1="16" y1="50" x2="84" y2="50" stroke="currentColor" stroke-width="2"/>
+      <circle cx="50" cy="50" r="4" fill="currentColor" stroke="none"/>
+    </symbol>
+
+    <!-- ── ICON: SUSTAINABLE (05) ──
+         Hourglass — two triangles meeting at center point
+         Force: time, balance, and long-term viability -->
+    <symbol id="icon-sustainable" viewBox="0 0 100 100">
+      <path
+        d="M 14,18 L 86,18 L 50,50 Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linejoin="round"/>
+      <path
+        d="M 14,82 L 86,82 L 50,50 Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- ── ICON: INDIVIDUAL (06) ──
+         Circle with center dot (head) + downward triangle (body)
+         Force: the individual agent, actor, or perspective -->
+    <symbol id="icon-individual" viewBox="0 0 100 100">
+      <circle cx="50" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="50" cy="30" r="5" fill="currentColor" stroke="none"/>
+      <path
+        d="M 24,52 L 76,52 L 50,84 Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- ── ICON: NUCLEUS (00) ──
+         Filled hexagon — the Kaleido center node
+         Not a force; the organizing structure that holds the six -->
+    <symbol id="icon-nucleus" viewBox="0 0 100 100">
+      <polygon
+        points="50,10 85,30 85,70 50,90 15,70 15,30"
+        fill="currentColor"
+        stroke="none"/>
+    </symbol>
+
+    <!-- ── HEX: MARK ──
+         Logo variant. Four concentric hexagons + center dot.
+         Strokes in currentColor; dots in currentColor.
+         ViewBox 100×100 — use at any size.
+         ── -->
+    <symbol id="hex-mark" viewBox="0 0 100 100">
+      <!-- ring 1 — R=47 -->
+      <polygon
+        points="50,3 90.7,26.5 90.7,73.5 50,97 9.3,73.5 9.3,26.5"
+        fill="none" stroke="currentColor"
+        stroke-width="1.5"
+        opacity="1"/>
+      <!-- ring 2 — R=35 -->
+      <polygon
+        points="50,15 80.3,32.5 80.3,67.5 50,85 19.7,67.5 19.7,32.5"
+        fill="none" stroke="currentColor"
+        stroke-width="1"
+        opacity="0.55"/>
+      <!-- ring 3 — R=24 -->
+      <polygon
+        points="50,26 70.8,38 70.8,62 50,74 29.2,62 29.2,38"
+        fill="none" stroke="currentColor"
+        stroke-width="0.8"
+        opacity="0.32"/>
+      <!-- ring 4 — R=13 -->
+      <polygon
+        points="50,37 61.3,43.5 61.3,56.5 50,63 38.7,56.5 38.7,43.5"
+        fill="none" stroke="currentColor"
+        stroke-width="0.7"
+        opacity="0.18"/>
+      <!-- center dot -->
+      <circle cx="50" cy="50" r="4" fill="var(--signal)" stroke="none"/>
+    </symbol>
+
+    <!-- ── HEX: FRAMEWORK ──
+         Beat 4 / framework variant.
+         ViewBox 300×300. Center (150,150). Outer ring R=110.
+         Includes: 4 concentric rings, 6 spokes, signal vertex dots,
+         signal center dot + ring, and force icons at each vertex.
+         ── -->
+    <symbol id="hex-framework" viewBox="0 0 300 300">
+      <!-- ring 1 — R=110 -->
+      <polygon
+        points="150,40 245.3,95 245.3,205 150,260 54.7,205 54.7,95"
+        fill="none" stroke="currentColor"
+        stroke-width="1.5"
+        opacity="1"/>
+      <!-- ring 2 — R=84 -->
+      <polygon
+        points="150,66 222.7,108 222.7,192 150,234 77.3,192 77.3,108"
+        fill="none" stroke="currentColor"
+        stroke-width="1"
+        opacity="0.55"/>
+      <!-- ring 3 — R=58 -->
+      <polygon
+        points="150,92 200.2,121 200.2,179 150,208 99.8,179 99.8,121"
+        fill="none" stroke="currentColor"
+        stroke-width="0.8"
+        opacity="0.32"/>
+      <!-- ring 4 — R=32 -->
+      <polygon
+        points="150,118 177.7,134 177.7,166 150,182 122.3,166 122.3,134"
+        fill="none" stroke="currentColor"
+        stroke-width="0.7"
+        opacity="0.18"/>
+
+      <!-- spokes — outer vertex → center, signal color -->
+      <g stroke="var(--signal)" stroke-width="0.8" opacity="0.40">
+        <line x1="150" y1="40"    x2="150" y2="150"/>
+        <line x1="245.3" y1="95"  x2="150" y2="150"/>
+        <line x1="245.3" y1="205" x2="150" y2="150"/>
+        <line x1="150" y1="260"   x2="150" y2="150"/>
+        <line x1="54.7" y1="205"  x2="150" y2="150"/>
+        <line x1="54.7" y1="95"   x2="150" y2="150"/>
+      </g>
+
+      <!-- vertex signal dots — outer ring -->
+      <g fill="var(--signal)" stroke="none">
+        <circle cx="150"   cy="40"  r="4"/>
+        <circle cx="245.3" cy="95"  r="4"/>
+        <circle cx="245.3" cy="205" r="4"/>
+        <circle cx="150"   cy="260" r="4"/>
+        <circle cx="54.7"  cy="205" r="4"/>
+        <circle cx="54.7"  cy="95"  r="4"/>
+      </g>
+
+      <!-- center signal dot + ring -->
+      <circle cx="150" cy="150" r="10" fill="none" stroke="var(--signal)" stroke-width="1" opacity="0.35"/>
+      <circle cx="150" cy="150" r="5"  fill="var(--signal)" stroke="none"/>
+
+      <!-- ─ vertex icons (24×24, currentColor, centered outward from each vertex) ─
+           Outward offset = 26px from vertex, away from center.
+           Icon top-left = icon_center − 12.
+           01 Material     top         (150, 40)   → icon center (150,  14) → x=138, y=2
+           02 Progress     top-right   (245.3, 95) → icon center (267.8,82) → x=255.8, y=70
+           03 Collective   bot-right   (245.3,205) → icon center (267.8,218)→ x=255.8, y=206
+           04 Preservation bottom      (150, 260)  → icon center (150, 286) → x=138, y=274
+           05 Sustainable  bot-left    (54.7, 205) → icon center (32.2,218) → x=20.2, y=206
+           06 Individual   top-left    (54.7, 95)  → icon center (32.2,82)  → x=20.2, y=70
+           ─ -->
+      <use href="#icon-material"     x="138"  y="2"   width="24" height="24" color="currentColor"/>
+      <use href="#icon-progress"     x="255.8" y="70"  width="24" height="24" color="currentColor"/>
+      <use href="#icon-collective"   x="255.8" y="206" width="24" height="24" color="currentColor"/>
+      <use href="#icon-preservation" x="138"  y="274" width="24" height="24" color="currentColor"/>
+      <use href="#icon-sustainable"  x="20.2" y="206" width="24" height="24" color="currentColor"/>
+      <use href="#icon-individual"   x="20.2" y="70"  width="24" height="24" color="currentColor"/>
+    </symbol>
+
+  </defs>
+</svg>
+
+
+<!-- ================================================================
+     REFERENCE PAGE
+     ================================================================ -->
+
+<div class="page-header">
+  <div class="page-title">kaleido — symbol system</div>
+  <div class="page-subtitle">v1.0 · single source of truth · all values from kaleido_tokens.css</div>
+</div>
+
+
+<!-- ── 01 FORCE ICONS ── -->
+<div class="section">
+  <div class="section-label">01 — force icons · large (80px) · dark ground</div>
+
+  <div class="icon-grid">
+
+    <div class="icon-card">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-material"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">01</span>
+        <span class="icon-name">material</span>
+      </div>
+    </div>
+
+    <div class="icon-card">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-progress"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">02</span>
+        <span class="icon-name">progress</span>
+      </div>
+    </div>
+
+    <div class="icon-card">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-collective"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">03</span>
+        <span class="icon-name">collective</span>
+      </div>
+    </div>
+
+    <div class="icon-card">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-preservation"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">04</span>
+        <span class="icon-name">preservation</span>
+      </div>
+    </div>
+
+    <div class="icon-card">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-sustainable"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">05</span>
+        <span class="icon-name">sustainable</span>
+      </div>
+    </div>
+
+    <div class="icon-card">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-individual"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">06</span>
+        <span class="icon-name">individual</span>
+      </div>
+    </div>
+
+    <div class="icon-card icon-card--center">
+      <svg width="80" height="80" style="color: var(--signal);">
+        <use href="#icon-nucleus"/>
+      </svg>
+      <div class="icon-card-meta">
+        <span class="icon-index">00</span>
+        <span class="icon-name">nucleus</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── 02 SIZE SCALE ── -->
+<div class="section">
+  <div class="section-label">02 — size scale · material icon · all three sizes</div>
+
+  <div class="size-row">
+    <div class="size-cell">
+      <svg width="16" height="16" style="color: var(--icon-stroke);">
+        <use href="#icon-material"/>
+      </svg>
+      <span class="size-label">sm · 16px</span>
+    </div>
+    <div class="size-cell">
+      <svg width="32" height="32" style="color: var(--icon-stroke);">
+        <use href="#icon-material"/>
+      </svg>
+      <span class="size-label">md · 32px</span>
+    </div>
+    <div class="size-cell">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-material"/>
+      </svg>
+      <span class="size-label">lg · 80px</span>
+    </div>
+
+    <div style="width:1px; height:80px; background:var(--ink-mid); margin-left:16px;"></div>
+
+    <!-- Same for nucleus -->
+    <div class="size-cell">
+      <svg width="16" height="16" style="color: var(--signal);">
+        <use href="#icon-nucleus"/>
+      </svg>
+      <span class="size-label">sm · 16px</span>
+    </div>
+    <div class="size-cell">
+      <svg width="32" height="32" style="color: var(--signal);">
+        <use href="#icon-nucleus"/>
+      </svg>
+      <span class="size-label">md · 32px</span>
+    </div>
+    <div class="size-cell">
+      <svg width="80" height="80" style="color: var(--signal);">
+        <use href="#icon-nucleus"/>
+      </svg>
+      <span class="size-label">lg · 80px</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── 03 GROUND COMPARISON ── -->
+<div class="section">
+  <div class="section-label">03 — on dark vs light ground · medium (32px)</div>
+
+  <div class="grounds-row">
+
+    <div class="ground-panel ground-panel--dark">
+      <div class="ground-label">dark (ink) — color: var(--icon-stroke)</div>
+      <div class="ground-icons">
+        <svg width="32" height="32" style="color: var(--icon-stroke);"><use href="#icon-material"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke);"><use href="#icon-progress"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke);"><use href="#icon-collective"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke);"><use href="#icon-preservation"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke);"><use href="#icon-sustainable"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke);"><use href="#icon-individual"/></svg>
+        <svg width="32" height="32" style="color: var(--signal);"><use href="#icon-nucleus"/></svg>
+      </div>
+    </div>
+
+    <div class="ground-panel ground-panel--light">
+      <div class="ground-label">light (paper) — color: var(--icon-stroke-light)</div>
+      <div class="ground-icons">
+        <svg width="32" height="32" style="color: var(--icon-stroke-light);"><use href="#icon-material"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke-light);"><use href="#icon-progress"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke-light);"><use href="#icon-collective"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke-light);"><use href="#icon-preservation"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke-light);"><use href="#icon-sustainable"/></svg>
+        <svg width="32" height="32" style="color: var(--icon-stroke-light);"><use href="#icon-individual"/></svg>
+        <svg width="32" height="32" style="color: var(--signal);"><use href="#icon-nucleus"/></svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── 04 HEXAGON MARK ── -->
+<div class="section">
+  <div class="section-label">04 — hex-mark · logo variant · concentric rings</div>
+
+  <div class="hex-row">
+
+    <div class="hex-cell">
+      <svg width="24" height="24" style="color: var(--paper);">
+        <use href="#hex-mark"/>
+      </svg>
+      <span class="size-label">24px</span>
+    </div>
+
+    <div class="hex-cell">
+      <svg width="48" height="48" style="color: var(--paper);">
+        <use href="#hex-mark"/>
+      </svg>
+      <span class="size-label">48px</span>
+    </div>
+
+    <div class="hex-cell">
+      <svg width="96" height="96" style="color: var(--paper);">
+        <use href="#hex-mark"/>
+      </svg>
+      <span class="size-label">96px</span>
+    </div>
+
+    <div class="hex-cell">
+      <svg width="160" height="160" style="color: var(--paper);">
+        <use href="#hex-mark"/>
+      </svg>
+      <span class="size-label">160px</span>
+    </div>
+
+    <div style="width:1px; height:100px; background:var(--ink-mid); margin: 0 16px;"></div>
+
+    <!-- On paper ground -->
+    <div style="background: var(--paper); padding: 24px; display:inline-flex; flex-direction:column; align-items:center; gap:12px;">
+      <svg width="96" height="96" style="color: var(--ink);">
+        <use href="#hex-mark"/>
+      </svg>
+      <span class="size-label" style="color: var(--ink-soft);">on paper ground</span>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── 05 HEXAGON FRAMEWORK ── -->
+<div class="section">
+  <div class="section-label">05 — hex-framework · beat 4 variant · with forces at vertices</div>
+
+  <div class="hex-framework-wrap">
+    <svg width="300" height="300" style="color: var(--paper);">
+      <use href="#hex-framework"/>
+    </svg>
+  </div>
+
+  <div class="rule-block">
+    <p>
+      The framework hexagon is a <span>single reusable symbol</span>.
+      It contains all rings, spokes, vertex dots, center dot, and vertex icons.
+      Drop it anywhere with <span>&lt;svg&gt;&lt;use href="#hex-framework"/&gt;&lt;/svg&gt;</span>.
+      All structural lines respond to <span>color</span> (currentColor).
+      Signal elements and vertex dots are hardcoded as <span>var(--signal)</span> inside the symbol — they never change color.
+    </p>
+  </div>
+</div>
+
+
+<!-- ── 06 USAGE REFERENCE ── -->
+<div class="section">
+  <div class="section-label">06 — usage · how to drop a symbol into any file</div>
+
+  <table class="token-table">
+    <tr>
+      <td class="token-group-label">Icons — on dark ground</td>
+      <td class="token-group-label"></td>
+    </tr>
+    <tr>
+      <td>color: var(--icon-stroke)</td>
+      <td>rgba(245,241,236,0.75) — standard opacity on ink</td>
+    </tr>
+    <tr>
+      <td>color: var(--icon-stroke-dim)</td>
+      <td>rgba(245,241,236,0.35) — dimmed / secondary on ink</td>
+    </tr>
+    <tr>
+      <td class="token-group-label">Icons — on light ground</td>
+      <td class="token-group-label"></td>
+    </tr>
+    <tr>
+      <td>color: var(--icon-stroke-light)</td>
+      <td>rgba(17,18,54,0.70) — standard opacity on paper</td>
+    </tr>
+    <tr>
+      <td>color: var(--icon-stroke-dim-light)</td>
+      <td>rgba(17,18,54,0.35) — dimmed / secondary on paper</td>
+    </tr>
+    <tr>
+      <td class="token-group-label">Nucleus icon</td>
+      <td class="token-group-label"></td>
+    </tr>
+    <tr>
+      <td>color: var(--signal)</td>
+      <td>#5B6FA6 — always signal, on either ground</td>
+    </tr>
+    <tr>
+      <td class="token-group-label">Hex mark</td>
+      <td class="token-group-label"></td>
+    </tr>
+    <tr>
+      <td>color: var(--paper) on dark</td>
+      <td>strokes in paper, center dot in var(--signal) — hardcoded</td>
+    </tr>
+    <tr>
+      <td>color: var(--ink) on light</td>
+      <td>strokes in ink, center dot in var(--signal) — hardcoded</td>
+    </tr>
+    <tr>
+      <td class="token-group-label">Sizes</td>
+      <td class="token-group-label"></td>
+    </tr>
+    <tr>
+      <td>var(--icon-size-sm) = 16px</td>
+      <td>inline labels, tight UI</td>
+    </tr>
+    <tr>
+      <td>var(--icon-size-md) = 32px</td>
+      <td>card headers, section markers</td>
+    </tr>
+    <tr>
+      <td>var(--icon-size-lg) = 80px</td>
+      <td>standalone, hero, framework display</td>
+    </tr>
+  </table>
+
+  <div class="rule-block" style="margin-top:48px;">
+    <p>
+      <span>Never</span> create a new SVG path for a force icon in any component file.
+      Always reference <span>kaleido_symbols.html</span> for the symbol definition
+      and use <span>&lt;use href="#icon-[name]"/&gt;</span>.
+      If a symbol needs to change, change it once here — it propagates everywhere.
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

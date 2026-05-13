@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaleido — Six Forces</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="kaleido_tokens.css">
+<style>
+  /* All color/type tokens come from kaleido_tokens.css — no :root here. */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    padding: 60px 48px;
+    min-height: 100vh;
+  }
+
+  .page-label {
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    margin-bottom: 48px;
+  }
+
+  .forces-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 900px;
+  }
+
+  .force-card {
+    background: var(--ink);
+    border: 1px solid var(--ink-mid);
+    padding: 36px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    cursor: default;
+  }
+  .force-card:hover {
+    border-color: var(--signal);
+    background: var(--ink-mid);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .card-index {
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 0.14em;
+  }
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--paper);
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+  }
+  .force-card:hover .card-name { color: var(--signal-light); }
+
+  /* Icon container — icons use <use href="#icon-..." /> at 80px */
+  .card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 96px;
+  }
+
+  .card-hook {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(245,241,236,0.65);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+
+  .card-tag {
+    font-size: 9px;
+    color: var(--signal-light);
+    letter-spacing: 0.14em;
+    opacity: 0.5;
+    text-transform: lowercase;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--ink-mid);
+    transition: opacity 0.2s ease;
+  }
+  .force-card:hover .card-tag { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     SVG SYMBOL DEFINITIONS
+     Source of truth: kaleido_symbols.html — edit there first.
+     Embedded here for local file:// compatibility.
+     ================================================================ -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <symbol id="icon-material" viewBox="0 0 100 100">
+      <polygon points="50,12 88,50 50,88 12,50" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+      <circle cx="50" cy="50" r="5" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="icon-progress" viewBox="0 0 100 100">
+      <polyline points="18,24 50,50 18,76" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="46,24 78,50 46,76" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-collective" viewBox="0 0 100 100">
+      <circle cx="36" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="64" cy="50" r="25" fill="none" stroke="currentColor" stroke-width="3"/>
+    </symbol>
+    <symbol id="icon-preservation" viewBox="0 0 100 100">
+      <rect x="16" y="16" width="68" height="68" fill="none" stroke="currentColor" stroke-width="3"/>
+      <line x1="50" y1="16" x2="50" y2="84" stroke="currentColor" stroke-width="2"/>
+      <line x1="16" y1="50" x2="84" y2="50" stroke="currentColor" stroke-width="2"/>
+      <circle cx="50" cy="50" r="4" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="icon-sustainable" viewBox="0 0 100 100">
+      <path d="M 14,18 L 86,18 L 50,50 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M 14,82 L 86,82 L 50,50 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-individual" viewBox="0 0 100 100">
+      <circle cx="50" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="3"/>
+      <circle cx="50" cy="30" r="5" fill="currentColor" stroke="none"/>
+      <path d="M 24,52 L 76,52 L 50,84 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-nucleus" viewBox="0 0 100 100">
+      <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="currentColor" stroke="none"/>
+    </symbol>
+  </defs>
+</svg>
+
+
+<p class="page-label">kaleido — six forces · vertex components</p>
+
+<div class="forces-grid">
+
+  <!-- 01 — MATERIAL · top vertex -->
+  <div class="force-card">
+    <div class="card-header">
+      <span class="card-index">01</span>
+      <span class="card-name">material</span>
+    </div>
+    <div class="card-icon">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-material"/>
+      </svg>
+    </div>
+    <p class="card-hook">it's the hunter who only cares about today's meal — money, survival, and who gets what</p>
+    <p class="card-tag">top vertex</p>
+  </div>
+
+  <!-- 02 — PROGRESS · top-right vertex -->
+  <div class="force-card">
+    <div class="card-header">
+      <span class="card-index">02</span>
+      <span class="card-name">progress</span>
+    </div>
+    <div class="card-icon">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-progress"/>
+      </svg>
+    </div>
+    <p class="card-hook">it's the inventor who's never satisfied with how things are — always asking "what's next"</p>
+    <p class="card-tag">top-right vertex</p>
+  </div>
+
+  <!-- 03 — COLLECTIVE · bottom-right vertex -->
+  <div class="force-card">
+    <div class="card-header">
+      <span class="card-index">03</span>
+      <span class="card-name">collective</span>
+    </div>
+    <div class="card-icon">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-collective"/>
+      </svg>
+    </div>
+    <p class="card-hook">it's the village deciding together what the rules are — things we can only build by agreeing</p>
+    <p class="card-tag">bottom-right vertex</p>
+  </div>
+
+  <!-- 04 — PRESERVATION · bottom vertex -->
+  <div class="force-card">
+    <div class="card-header">
+      <span class="card-index">04</span>
+      <span class="card-name">preservation</span>
+    </div>
+    <div class="card-icon">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-preservation"/>
+      </svg>
+    </div>
+    <p class="card-hook">it's the recipe your grandmother never wrote down — but everyone knows</p>
+    <p class="card-tag">bottom vertex</p>
+  </div>
+
+  <!-- 05 — SUSTAINABLE · bottom-left vertex -->
+  <div class="force-card">
+    <div class="card-header">
+      <span class="card-index">05</span>
+      <span class="card-name">sustainable</span>
+    </div>
+    <div class="card-icon">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-sustainable"/>
+      </svg>
+    </div>
+    <p class="card-hook">it's the grandmother who plants a tree she'll never sit under — thinking in generations, not quarters</p>
+    <p class="card-tag">bottom-left vertex</p>
+  </div>
+
+  <!-- 06 — INDIVIDUAL · top-left vertex -->
+  <div class="force-card">
+    <div class="card-header">
+      <span class="card-index">06</span>
+      <span class="card-name">individual</span>
+    </div>
+    <div class="card-icon">
+      <svg width="80" height="80" style="color: var(--icon-stroke);">
+        <use href="#icon-individual"/>
+      </svg>
+    </div>
+    <p class="card-hook">it's your bedroom door — the right to close it, to say "this is mine, this is me"</p>
+    <p class="card-tag">top-left vertex</p>
+  </div>
+
+</div>
+</body>
+</html>

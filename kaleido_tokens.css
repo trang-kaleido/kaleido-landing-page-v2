@@ -1,0 +1,193 @@
+/* ============================================================
+   KALEIDO — DESIGN TOKENS
+   Single source of truth · v3.0
+   All other files import this. Nothing is hard-coded elsewhere.
+   ============================================================ */
+
+/* ── CORE COLOR ── */
+:root {
+  --ink:            #111236;   /* authority — text, borders, mark */
+  --paper:          #F5F1EC;   /* space — every surface where reading happens */
+  --signal:         #5B6FA6;   /* attention — marks what matters, never decorative */
+}
+
+/* ── INK FAMILY ── */
+:root {
+  --ink-deep:       #111236;
+  --ink-mid:        #2E2D4E;
+  --ink-soft:       #6B6A82;
+  --ink-ghost:      #C8C6D8;
+  --ink-whisper:    #F0EEF8;
+}
+
+/* ── PAPER FAMILY ── */
+:root {
+  --paper-deep:     #EBE6DF;   /* beat 2 wound ground — matches design spec */
+  --paper-border:   #C9C0B4;
+  --white:          #FFFFFF;
+}
+
+/* ── SIGNAL FAMILY ── */
+:root {
+  --signal-dark:    #2E3F72;
+  --signal-mid:     #5B6FA6;
+  --signal-light:   #9DACD0;
+  --signal-ghost:   #EEF1FA;
+}
+
+/* ── SEMANTIC ── */
+:root {
+  --color-success:  #4A7B62;
+  --color-warning:  #A0732A;
+  --color-error:    #8C3A3A;
+  --color-info:     #9DACD0;
+}
+
+/* ── TYPOGRAPHY ── */
+/* Font loading (Google Fonts):
+   Cormorant Garamond — weights 400, 500, 600 (roman + italic for each)
+   DM Mono — weight 400
+   Required import string:
+   ?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Mono:wght@400
+   Weight 600 is required: used in beat 0 hero headline and beat 3 headline. */
+:root {
+  --font-display:   'Cormorant Garamond', Georgia, serif;
+  --font-body:      Georgia, 'Times New Roman', serif;
+  --font-mono:      'DM Mono', 'Courier New', monospace;
+
+  --text-display:   clamp(48px, 7vw, 72px);
+  --text-h1:        clamp(32px, 5vw, 40px);
+  --text-h2:        28px;
+  --text-h3:        20px;
+  --text-body:      16px;
+  --text-small:     14px;
+  --text-caption:   11px;
+  --text-mono:      12px;
+  --text-mono-sm:   10px;
+
+  --leading-tight:  1.15;
+  --leading-text:   1.7;
+  --leading-mono:   1.5;
+
+  --tracking-display: -0.02em;
+  --tracking-h1:      -0.01em;
+  --tracking-label:    0.12em;
+  --tracking-mono:     0.06em;
+}
+
+/* ── HEXAGON GEOMETRY ──
+   SVG values are unitless (coordinate space).
+   These inform the symbols defined in kaleido_symbols.html.
+   ── */
+:root {
+  /* Ring opacities: outer ring = 1, each ring inward fades */
+  --hex-ring-1-opacity:     1;
+  --hex-ring-2-opacity:     0.55;
+  --hex-ring-3-opacity:     0.32;
+  --hex-ring-4-opacity:     0.18;
+
+  /* Stroke weights (SVG unitless, in 100×100 coordinate space) */
+  --hex-stroke-outer:       1.5;
+  --hex-stroke-mid:         1.0;
+  --hex-stroke-inner:       0.8;
+  --hex-stroke-fine:        0.7;
+
+  /* Framework variant geometry */
+  --hex-spoke-opacity:      0.40;
+  --hex-vertex-r:           4;     /* signal dot at each outer vertex */
+  --hex-center-r:           5;     /* signal dot at center */
+  --hex-center-ring-r:      10;    /* faint expanding ring at center */
+  --hex-center-ring-opacity:0.35;
+}
+
+/* ── ICON SYSTEM ──
+   Icons use currentColor — set `color` on the wrapper SVG.
+   On dark (ink) ground: use --icon-stroke values.
+   On light (paper) ground: use --icon-stroke-light values.
+   ── */
+:root {
+  /* On dark ground */
+  --icon-stroke:        rgba(245, 241, 236, 0.75);
+  --icon-stroke-dim:    rgba(245, 241, 236, 0.35);
+
+  /* On light ground */
+  --icon-stroke-light:     rgba(17, 18, 54, 0.70);
+  --icon-stroke-dim-light: rgba(17, 18, 54, 0.35);
+
+  /* Display sizes */
+  --icon-size-lg:   80px;   /* standalone, hero contexts */
+  --icon-size-md:   32px;   /* card headers, labels */
+  --icon-size-sm:   16px;   /* inline, tight UI */
+}
+
+/* ── SPACING ── */
+:root {
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   24px;
+  --space-6:   32px;
+  --space-7:   48px;
+  --space-8:   64px;
+  --space-9:   96px;
+  --space-10:  128px;
+}
+
+/* ── ANIMATION ── */
+:root {
+  --ease-default:    ease;
+  --dur-fast:        200ms;
+  --dur-default:     700ms;
+  --dur-slow:        1200ms;
+  --dur-construct:   400ms;   /* hexagon edge-draw phase */
+
+  /* Fade-in default: opacity 0→1 + translateY 18px→0 */
+  --fade-distance:   18px;
+
+  /* Canvas / particle */
+  --canvas-font:     11px;
+  --question-cycle:  1800ms;  /* setInterval for cycling questions */
+}
+
+/* ── SURFACE ── */
+:root {
+  --nav-blur:       blur(8px);
+  --nav-bg-light:   rgba(245, 241, 236, 0.92);
+  --nav-bg-dark:    rgba(17, 18, 54, 0.92);
+  --radius-sm:      4px;
+  --radius-md:      8px;
+}
+
+/* ── LAYOUT: ORGANIC LEFT MARGINS (landing page) ──
+   Each beat's content block is offset independently.
+   Base gutter = 52px. Percentage is additional content offset.
+   Apply as padding-left on the section element, not a child div.
+   ── */
+:root {
+  --gutter:          52px;
+  --beat-0-offset:   0%;      /* hero */
+  --beat-1-offset:   8%;      /* trap */
+  --beat-2-offset:   18%;     /* wound — deepest, most isolated */
+  --beat-3-offset:   4%;      /* medicine */
+  --beat-5-offset:   10%;     /* for example */
+  --beat-6-offset:   6%;      /* release */
+  /* beats 3.3, 4: centered — no offset token needed */
+}
+
+/* ── MOBILE OVERRIDES (≤768px) ──
+   Desktop spec holds in full. These tokens override layout only.
+   Animation logic, colors, typefaces, easing: all unchanged.
+   Wound isolation is re-enacted via border-left — see §06 of design spec.
+   ── */
+@media (max-width: 768px) {
+  :root {
+    --gutter:          24px;
+    --beat-0-offset:   0%;
+    --beat-1-offset:   4%;
+    --beat-2-offset:   0%;    /* isolation via border-left, not indent */
+    --beat-3-offset:   2%;
+    --beat-5-offset:   5%;
+    --beat-6-offset:   3%;
+  }
+}
