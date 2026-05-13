@@ -4,22 +4,37 @@
 
 | Env | URL | Branch |
 |-----|-----|--------|
-| Production | [your-app.com] | `main` |
-| Preview | [auto per PR] | any |
+| Production | kaleido.study | `main` |
+| Preview | auto per push | any branch |
 
 ## Deploy
-
 ```bash
-[your deploy command, e.g. git push origin main]
+git push kaleido main
 ```
+Vercel auto-deploys on push. No build step. Usually live in < 60 seconds.
 
-## Environment Variables
+## Git remotes
+```
+kaleido   https://github.com/trang-kaleido/kaleido-landing-page-v2.git  (deploy)
+origin    https://github.com/ttrraanng28/claudecode-project-setup.git   (template — ignore)
+```
+Always push to `kaleido`, not `origin`.
 
-- Set in: [e.g. Vercel dashboard → Settings → Environment Variables]
-- Required vars: [list them]
+## Vercel config (`vercel.json`)
+```json
+{
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": false
+}
+```
+`cleanUrls` strips `.html` and makes `/en/index.html` accessible at `/en`.
 
-## After Deploy Checklist
+## No environment variables
+This is a fully static site. No server-side secrets, no env vars.
 
-- [ ] [e.g. Run DB migrations]
-- [ ] [e.g. Verify auth redirect URLs]
-- [ ] [e.g. Smoke-test critical flows]
+## After deploy checklist
+- [ ] Visit kaleido.study — language selector renders, EN/VI links work
+- [ ] Visit kaleido.study/en — full English landing loads
+- [ ] Visit kaleido.study/vi — full Vietnamese landing loads

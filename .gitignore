@@ -22,3 +22,9 @@ Thumbs.db
 
 # Claude (permissions only — MCP config goes in .mcp.json)
 .claude/settings.local.json
+.claude/plans/
+.claude/statusline.sh
+
+# Project archives & test artifacts
+reference/
+test-screenshots/

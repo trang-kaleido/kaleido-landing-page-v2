@@ -1,33 +1,24 @@
 # Documentation Index
 
-> **Protocol:** Before starting any task, find your entry point below. Read ONLY the matched file(s). If no match, work from codebase directly. Add a row here whenever you add a new doc.
+> **Protocol:** Before starting any task, find your entry point below. Read ONLY the matched file. If no match, work directly from the codebase.
 
-## Route by File Path
+## Route by intent
 
-| You're editing...         | Read                        |
-|---------------------------|-----------------------------|
-| _(add your source paths)_ | _(link the relevant doc)_   |
+| I need to… | Read |
+|------------|------|
+| Understand the site structure / page anatomy | [architecture.md](architecture.md) |
+| Deploy or check Vercel config | [deployment.md](deployment.md) |
+| Add or edit the language selector | [architecture.md](architecture.md) — "Language selector" section |
+| Add or edit a landing page section | [architecture.md](architecture.md) — "Page anatomy" section |
+| Match the design (colors, fonts, tokens) | `CLAUDE.md` — design system table |
 
-## Route by Intent
+## Route by file
 
-### Adding something new
+| Editing… | Read |
+|----------|------|
+| `index.html` | [architecture.md](architecture.md) |
+| `en/index.html` or `vi/index.html` | [architecture.md](architecture.md) |
+| `vercel.json` | [deployment.md](deployment.md) |
 
-| I want to...              | Read                                |
-|---------------------------|-------------------------------------|
-| Understand project layout | [architecture.md](architecture.md)  |
-
-### Debugging
-
-| The bug is in...          | Read                      |
-|---------------------------|---------------------------|
-| _(add your debug routes)_ | _(link the relevant doc)_ |
-
-### Deploying
-
-| I need to...              | Read                            |
-|---------------------------|---------------------------------|
-| Deploy or update env vars | [deployment.md](deployment.md)  |
-
-## No Match?
-
-Work directly from the codebase. Use grep/glob. Don't load docs speculatively.
+## No match?
+Work directly from the codebase. Don't load docs speculatively.
