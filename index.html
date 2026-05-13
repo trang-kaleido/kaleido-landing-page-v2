@@ -1,328 +1,273 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Kaleido — IELTS Writing Task 2">
-  <title>Kaleido</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KALEIDO — IELTS Writing Task 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+}
 
-    :root {
-      --ink:     #111236;
-      --paper:   #F5F1EC;
-      --signal:  #5B6FA6;
-      --mid:     rgba(245,241,236,0.62);
-      --dim:     rgba(245,241,236,0.32);
-      --dimmer:  rgba(245,241,236,0.12);
-      --serif:   'Cormorant Garamond', Georgia, serif;
-      --mono:    'DM Mono', 'Courier New', monospace;
-    }
+body {
+  background: #F5F1EC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
 
-    html, body {
-      height: 100%;
-      overflow: hidden;
-    }
+.k-root {
+  background: #F5F1EC;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 48px;
+  position: relative;
+  overflow: hidden;
+}
 
-    body {
-      background: var(--ink);
-      color: var(--paper);
-      font-family: var(--serif);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100dvh;
-      -webkit-font-smoothing: antialiased;
-    }
+.k-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
-    canvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
+.k-bq {
+  position: absolute;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(17,18,54,0.028);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
 
-    /* ── stage ──────────────────────────────────────── */
-    .stage {
-      position: relative;
-      z-index: 1;
-      width: min(680px, 100vw - 48px);
-      animation: rise 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+.k-body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+}
 
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+.k-mark {
+  margin-bottom: 44px;
+  opacity: 0;
+  animation: kr 1.1s cubic-bezier(0.16,1,0.3,1) 0s forwards;
+}
 
-    /* ── wordmark ───────────────────────────────────── */
-    .wordmark {
-      text-align: center;
-      font-family: var(--serif);
-      font-size: clamp(3.2rem, 11vw, 6rem);
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--paper);
-      line-height: 1;
-      margin-bottom: 0.6rem;
-    }
+.k-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 46px;
+  letter-spacing: 0.22em;
+  color: #111236;
+  line-height: 1;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: kr 1.1s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+}
 
-    .tagline {
-      text-align: center;
-      font-family: var(--mono);
-      font-size: clamp(0.58rem, 1.5vw, 0.7rem);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
+.k-rule {
+  width: 28px;
+  height: 0.5px;
+  background: #C9C0B4;
+  margin: 0 auto 12px;
+  opacity: 0;
+  animation: kr 0.9s ease 0.2s forwards;
+}
 
-    /* ── rule ───────────────────────────────────────── */
-    .rule {
-      display: block;
-      width: 1px;
-      height: 52px;
-      background: linear-gradient(to bottom, transparent, rgba(245,241,236,0.22), transparent);
-      margin: 2.4rem auto;
-      animation: rise 1.1s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+.k-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: #6B6A82;
+  text-transform: uppercase;
+  margin-bottom: 64px;
+  opacity: 0;
+  animation: kr 0.9s ease 0.26s forwards;
+}
 
-    /* ── choices ────────────────────────────────────── */
-    .choices {
-      display: grid;
-      grid-template-columns: 1fr 1px 1fr;
-      animation: rise 1.1s 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
+.k-intro {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 17px;
+  color: #6B6A82;
+  line-height: 1.7;
+  margin-bottom: 52px;
+  opacity: 0;
+  animation: kr 0.9s ease 0.34s forwards;
+  max-width: 300px;
+}
 
-    .v-rule {
-      background: rgba(245,241,236,0.1);
-      align-self: stretch;
-    }
+.k-choices {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  opacity: 0;
+  animation: kr 0.8s ease 0.46s forwards;
+  border: 0.5px solid #C9C0B4;
+}
 
-    .panel {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      padding: 2.8rem 2rem;
-      text-decoration: none;
-      color: var(--paper);
-      border: 1px solid rgba(245,241,236,0.1);
-      cursor: pointer;
-      transition: background 0.22s, border-color 0.22s;
-      position: relative;
-      overflow: hidden;
-    }
+.k-choice {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 28px 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
 
-    .panel::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, rgba(91,111,166,0.08) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
+.k-choice + .k-choice {
+  border-top: 0.5px solid #C9C0B4;
+}
 
-    .panel:hover {
-      background: rgba(245,241,236,0.035);
-      border-color: rgba(245,241,236,0.3);
-    }
+.k-choice::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #111236;
+  opacity: 0;
+  transition: opacity 0.26s ease;
+}
 
-    .panel:hover::after { opacity: 1; }
+.k-choice:hover::after { opacity: 1; }
+.k-choice:hover .k-cn { color: #F5F1EC; }
+.k-choice:hover .k-cl { color: #5B6FA6; }
 
-    .panel--en { border-right: none; }
-    .panel--vi { border-left: none; }
+.k-cn {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #2E2D4E;
+  transition: color 0.26s ease;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
 
-    .panel__name {
-      font-family: var(--serif);
-      font-size: clamp(1.4rem, 4.5vw, 2rem);
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: var(--paper);
-      transition: letter-spacing 0.3s;
-    }
+.k-cl {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: #C8C6D8;
+  transition: color 0.26s ease;
+  position: relative;
+  z-index: 1;
+}
 
-    .panel:hover .panel__name {
-      letter-spacing: 0.08em;
-    }
+.k-foot {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #C8C6D8;
+  margin-top: 64px;
+  opacity: 0;
+  animation: kr 0.7s ease 0.64s forwards;
+}
 
-    .panel__code {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
-
-    .panel__arrow {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--signal);
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: opacity 0.22s, transform 0.22s;
-      letter-spacing: 0.08em;
-    }
-
-    .panel:hover .panel__arrow {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* ── mobile ─────────────────────────────────────── */
-    @media (max-width: 480px) {
-      .choices {
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr auto 1fr;
-      }
-      .v-rule {
-        width: auto;
-        height: 1px;
-      }
-      .panel--en { border-right: 1px solid rgba(245,241,236,0.1); border-bottom: none; }
-      .panel--vi { border-left: 1px solid rgba(245,241,236,0.1); border-top: none; }
-      .panel { padding: 2.4rem 2rem; }
-    }
-  </style>
+@keyframes kr {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
 </head>
 <body>
 
-  <canvas id="bg"></canvas>
+<div class="k-bg" id="kbg" aria-hidden="true"></div>
 
-  <div class="stage">
-    <p class="wordmark">Kaleido</p>
-    <p class="tagline">IELTS &thinsp;Writing Task 2</p>
+<div class="k-root">
+  <div class="k-body">
 
-    <span class="rule"></span>
+    <div class="k-mark">
+      <svg width="38" height="38" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,3 97,27.5 97,72.5 50,97 3,72.5 3,27.5" stroke="#111236" stroke-width="1.5" fill="none"/>
+        <polygon points="50,18 82,35 82,65 50,82 18,65 18,35" stroke="#111236" stroke-width="1" fill="none" opacity="0.36"/>
+        <polygon points="50,33 67,42 67,58 50,67 33,58 33,42" stroke="#111236" stroke-width="0.7" fill="none" opacity="0.14"/>
+        <circle cx="50" cy="50" r="5" fill="#5B6FA6"/>
+      </svg>
+    </div>
 
-    <div class="choices">
-      <a class="panel panel--en" href="/en">
-        <span class="panel__name">English</span>
-        <span class="panel__code">EN</span>
-        <span class="panel__arrow">enter &rarr;</span>
+    <div class="k-word">KALEIDO</div>
+    <div class="k-rule"></div>
+    <div class="k-sub">IELTS Writing Task 2</div>
+
+    <div class="k-intro">
+      writing is not a language skill.<br>it is a thinking skill.
+    </div>
+
+    <div class="k-choices">
+      <a href="/en" class="k-choice">
+        <span class="k-cn">English</span>
+        <span class="k-cl">EN</span>
       </a>
-      <div class="v-rule"></div>
-      <a class="panel panel--vi" href="/vi">
-        <span class="panel__name">Tiếng Việt</span>
-        <span class="panel__code">VI</span>
-        <span class="panel__arrow">vào &rarr;</span>
+      <a href="/vi" class="k-choice">
+        <span class="k-cn">Tiếng Việt</span>
+        <span class="k-cl">VI</span>
       </a>
     </div>
+
+    <div class="k-foot">Hanoi · 2026</div>
+
   </div>
+</div>
 
-  <script>
-    (function () {
-      const cvs = document.getElementById('bg');
-      const ctx = cvs.getContext('2d');
-      let W = 0, H = 0;
+<script>
+const qs = [
+  "Should governments invest more in public transport?",
+  "Is technology making us less creative?",
+  "Some people think education should be free.",
+  "Is globalisation a positive development?",
+  "Does social media do more harm than good?",
+  "Should the arts receive government funding?",
+  "Is online learning as effective?",
+  "Should voting be compulsory?",
+  "Is fast fashion an environmental problem?",
+  "Should capital punishment be abolished?",
+  "Is space exploration a waste of money?",
+  "Should wealthy nations help poorer ones?",
+  "Is economic growth more important than the environment?",
+  "Do celebrities have a responsibility to be role models?",
+  "Should children learn a second language from birth?",
+  "Does workplace stress cause significant illness?",
+  "Should private cars be taxed to fund public transport?",
+  "Is globalisation making cultures increasingly similar?",
+  "Should financial literacy be taught in schools?",
+  "Are smartphones destroying social interaction?",
+  "Could AI replace teachers in the future?",
+  "Should governments limit household waste?"
+];
 
-      function resize() {
-        W = cvs.width  = window.innerWidth;
-        H = cvs.height = window.innerHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      const QUESTIONS = [
-        "Should schools prioritize life skills over academics?",
-        "Should education serve society or individual ambitions?",
-        "Universities: workforce prep or personal development?",
-        "Are music, art and drama as important as core subjects?",
-        "Should financial education be compulsory?",
-        "When should children start a foreign language?",
-        "Are teenagers too reliant on technology for learning?",
-        "Has remote work impaired general work habits?",
-        "Are smartphones destroying social interaction?",
-        "Has social media changed interaction for the better?",
-        "Does technology make life more complex, not simpler?",
-        "Should tourist flights be discouraged?",
-        "Should clean water be provided free to every home?",
-        "Is the fashion industry harmful to the environment?",
-        "Should governments limit household waste?",
-        "Who bears responsibility for managing transport pollution?",
-        "Can economic success and a clean environment coexist?",
-        "Should private cars be taxed to fund public transport?",
-        "Is globalisation making cultures increasingly similar?",
-        "Is salary more important than job satisfaction?",
-        "Should parental leave be equal for men and women?",
-        "Does workplace stress cause significant illness?",
-        "Could AI replace teachers in the future?",
-      ];
-
-      const MAX = 32;
-      const particles = [];
-
-      class Particle {
-        constructor(cold) {
-          this.text   = QUESTIONS[~~(Math.random() * QUESTIONS.length)];
-          this.size   = 10 + Math.random() * 2.5;
-          this.base   = 0.22 + Math.random() * 0.14;
-          this.opacity = cold ? this.base : 0;
-          if (cold) {
-            this.x = 60 + Math.random() * Math.max(W - 120, 60);
-            this.y = 60 + Math.random() * Math.max(H - 120, 60);
-          } else {
-            const edge = ~~(Math.random() * 4);
-            if      (edge === 0) { this.x = -200; this.y = Math.random() * H; }
-            else if (edge === 1) { this.x = W+200; this.y = Math.random() * H; }
-            else if (edge === 2) { this.x = Math.random() * W; this.y = -25; }
-            else                 { this.x = Math.random() * W; this.y = H+25; }
-          }
-          const a = cold
-            ? Math.random() * Math.PI * 2
-            : Math.atan2(H / 2 - this.y, W / 2 - this.x) + (Math.random() - 0.5) * 1.1;
-          const s = 0.07 + Math.random() * 0.13;
-          this.vx = Math.cos(a) * s;
-          this.vy = Math.sin(a) * s;
-        }
-        update(dt) {
-          this.x += this.vx * dt * 60;
-          this.y += this.vy * dt * 60;
-          if (this.x < -280) this.x = W + 120;
-          if (this.x > W+280) this.x = -120;
-          if (this.y < -35) this.y = H + 35;
-          if (this.y > H+35) this.y = -35;
-          this.opacity = Math.min(this.opacity + dt * 0.4, this.base);
-        }
-        draw() {
-          ctx.save();
-          ctx.globalAlpha = this.opacity;
-          ctx.font = `${this.size}px 'DM Mono', monospace`;
-          ctx.fillStyle = '#F5F1EC';
-          ctx.fillText(this.text, this.x, this.y);
-          ctx.restore();
-        }
-      }
-
-      for (let i = 0; i < 10; i++) particles.push(new Particle(true));
-
-      let last = null, spawnTimer = 0;
-      function frame(ts) {
-        if (!last) last = ts;
-        const dt = Math.min((ts - last) / 1000, 0.05);
-        last = ts;
-        ctx.clearRect(0, 0, W, H);
-        spawnTimer += dt * 1000;
-        if (particles.length < MAX && spawnTimer > 380) {
-          particles.push(new Particle(false));
-          spawnTimer = 0;
-        }
-        particles.forEach(p => { p.update(dt); p.draw(); });
-        requestAnimationFrame(frame);
-      }
-
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => requestAnimationFrame(frame));
-      } else {
-        setTimeout(() => requestAnimationFrame(frame), 400);
-      }
-    })();
-  </script>
-
+const bg = document.getElementById('kbg');
+qs.forEach((q, i) => {
+  const el = document.createElement('div');
+  el.className = 'k-bq';
+  el.textContent = q;
+  const col = i % 3;
+  const row = Math.floor(i / 3);
+  el.style.left = (col / 3 * 84 + 3 + ((i * 37 + 11) % 11 - 5)) + '%';
+  el.style.top  = (row / Math.ceil(qs.length / 3) * 88 + 3 + ((i * 53 + 7) % 9 - 4)) + '%';
+  el.style.transform = `rotate(${((i * 17) % 8 - 4) * 0.2}deg)`;
+  bg.appendChild(el);
+});
+</script>
 </body>
 </html>
